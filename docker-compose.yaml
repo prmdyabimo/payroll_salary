@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db-dev:
+    container_name: four_best_sinergy-db
+    restart: always
+    image: postgres:16.1-alpine
+    ports:
+      - 54321:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin@12345
+      - POSTGRES_DB=four_best_sinergy_db
+    networks:
+      - testing-networks
+      
+  adminer:
+    container_name: four_best_sinergy-adminer
+    image: adminer:latest
+    restart: always
+    ports:
+      - 3031:8080
+    networks:
+      - testing-networks
+    depends_on:
+      - db-dev
+
+networks:
+  testing-networks:
+    driver: bridge
